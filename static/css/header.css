@@ -1,0 +1,21 @@
+header {
+    background-color: var(--secondary);/* Gradiente da esquerda (branco) para direita (azul) */
+    height: 50px;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+}
+
+
+.logo {
+    height: 26px;
+    margin-right: 15px;
+}
+
+.titulo {
+    font-size: 20px;
+    margin: 0;
+    color: white;
+    text-align: center;
+}

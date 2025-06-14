@@ -1,0 +1,52 @@
+@import url(./footer.css);
+@import url(./header.css);
+@import url(./sidebar.css);
+
+:root {
+    --primary: linear-gradient(to right, white, #0D47A1); 
+    --secondary: #0D47A1; /* Azul escuro */
+    --tertiary: #e64a19; /* Laranja */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: sans-serif;
+    position: relative;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    align-items: center;
+}
+
+.main-content {
+    flex: 3;
+    min-height: 500px;
+    background-color:var(--secondary);
+    padding: 20px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: white;
+}
+
+.main-content > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-content > div > img {
+    width: 100%;
+}

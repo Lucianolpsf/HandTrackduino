@@ -1,69 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Visão computacional</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header class="navbar">
-        <img src="{{ url_for('static',filename='img/logo-senai.png' )}}" alt="Logo sistema" class="logo" />
-        <h1 class="titulo">Visão computacional</h1>
-    </header>
+{% extends 'base.html' %}
 
-    <main>
-        <aside class="sidebar">
-            {% for i in range(1, 7) %}
-            <div class="box" onclick="loadContent({{ i }})">{{ i }}</div>
-            {% endfor %}
-        </aside>
-        <div id="content" class="main-content">
-            <p>Conteúdo padrão. Clique em um dos quadros à direita.</p>
-        </div>
-    </main>
-        
+{% block content %}
 
-    <footer>
-        <p>Direitos reservados</p>
-    </footer>
+    <div id="content" class="main-content">
+        <p>Selecione um dos modelos</p>
+    </div>
 
-    <script>
-        function stopOldStream() {
-            // Remove qualquer <img> com id 'lousa' (usado nos templates lousa.html e arduino.html)
-            const oldImg = document.getElementById('lousa');
-            if (oldImg) {
-                // Remove o src para parar o stream
-                oldImg.src = '';
-                // Remove o elemento do DOM
-                oldImg.remove();
-            }
-        }
+{% endblock %}
 
-        function loadContent(id) {
-            stopOldStream();
-            if (id === 1) {
-                fetch('/arduino')
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('content').innerHTML = html;
-                });
-            }
-            else if (id === 2) {
-                fetch('/lousa')
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('content').innerHTML = html;
-                });
-            }
-            else {
-                fetch(`/conteudo/${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('content').innerHTML = `<p>${data.conteudo}</p>`;
-                });
-            }
-        }
-    </script>
-
-</body>
-</html>

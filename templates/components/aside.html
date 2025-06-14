@@ -1,0 +1,6 @@
+<aside class="sidebar">
+    {% for visao in visoes %}
+        {% set i = loop.index %}
+        <div class="box" onclick='loadContent({{ i }})'>{{ visao }}</div>
+    {% endfor %}
+</aside>

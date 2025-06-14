@@ -1,13 +1,14 @@
 from flask import Flask, render_template, Response, jsonify
-from src.arduino import gen_arduino_frames
-from src.lousa import gen_frames
+from src.robo.arduino import gen_arduino_frames
+from src.desenho.lousa import gen_frames
 
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    visoes = ['Robô', 'Lousa']
+    return render_template('index.html', visoes=visoes)
 
 @app.route('/video_feed')
 def video_feed():
