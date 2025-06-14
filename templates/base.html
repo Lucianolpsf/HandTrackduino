@@ -11,13 +11,20 @@
     <main>
 
         {% include 'components/aside.html' %}
+    
+    <section class="main-github">
         
+        {% include 'components/cards.html' %}
+
         {% block content %} {%endblock %}
+    
+    </section>
         
     </main>
     
     {% include 'components/footer.html' %}
 
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/github_cash.js') }}"></script>
 </body>
 </html>

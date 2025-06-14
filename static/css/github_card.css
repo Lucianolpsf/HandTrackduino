@@ -1,0 +1,23 @@
+.card{
+    border: 1px solid var(--tertiary);
+    padding: 10px;
+    text-align: center;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    height: 115px;
+}
+
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.card-header > img {
+    width: 70px;
+    border-radius: 50%;
+}
+
+.card-header > div > img{
+    width: 70px;
+}

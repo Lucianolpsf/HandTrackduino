@@ -1,6 +1,7 @@
 @import url(./footer.css);
 @import url(./header.css);
 @import url(./sidebar.css);
+@import url(./github_card.css);
 
 :root {
     --primary: linear-gradient(to right, white, #0D47A1); 
@@ -30,6 +31,14 @@ main {
     align-items: center;
 }
 
+.main-github {
+    display: flex;
+    gap: 20px;
+    /* align-items: center; */
+    justify-content: center;
+    width: 100%;
+}
+
 .main-content {
     flex: 3;
     min-height: 500px;
@@ -49,4 +58,9 @@ main {
 
 .main-content > div > img {
     width: 100%;
+}
+
+#cards-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
