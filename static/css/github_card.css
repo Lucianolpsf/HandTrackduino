@@ -2,9 +2,8 @@
     border: 1px solid var(--tertiary);
     padding: 10px;
     text-align: center;
-    margin-left: 10px;
-    margin-bottom: 10px;
     height: 115px;
+    border-radius: 8px;
 }
 
 .card-header{

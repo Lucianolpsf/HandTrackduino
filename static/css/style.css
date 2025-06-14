@@ -34,9 +34,10 @@ main {
 .main-github {
     display: flex;
     gap: 20px;
-    /* align-items: center; */
+    align-items: flex-start;
     justify-content: center;
     width: 100%;
+    padding: 10px;
 }
 
 .main-content {
@@ -47,6 +48,7 @@ main {
     border-radius: 5px;
     box-sizing: border-box;
     color: white;
+    max-height: 100vh;
 }
 
 .main-content > div {
@@ -57,10 +59,11 @@ main {
 }
 
 .main-content > div > img {
-    width: 100%;
+    width: 100vh;
 }
 
 #cards-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
