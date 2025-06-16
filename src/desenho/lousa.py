@@ -1,18 +1,15 @@
 import cv2
-import os
 from cvzone.HandTrackingModule import HandDetector
-from dotenv import load_dotenv
-load_dotenv()
 
-CAMERA = os.getenv('CAMERA')
-detector = HandDetector()
+detector = HandDetector(detectionCon=0.8, maxHands=1)
 desenho = []
 
-def gen_frames():
+def gen_frames(camera_id):
     global desenho
-    video = cv2.VideoCapture(int(CAMERA))
-    video.set(3, 1280)
-    video.set(4, 720)
+    video = cv2.VideoCapture(int(camera_id))
+
+    # video.set(3, 1280)
+    # video.set(4, 720)
     try:
         while True:
             success, img = video.read()
@@ -20,6 +17,7 @@ def gen_frames():
                 print("Erro: Não foi possível capturar a imagem da câmera!")
                 continue
 
+            img = cv2.flip(img, 1)
             resultado = detector.findHands(img, draw=True)
             hands = resultado[0]
 
@@ -45,7 +43,6 @@ def gen_frames():
                         if x != 0 and ax != 0:
                             cv2.line(img, (x, y), (ax, ay), (0, 0, 255), 20)
 
-            img = cv2.flip(img, 1)
             ret, buffer = cv2.imencode('.jpg', img)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'

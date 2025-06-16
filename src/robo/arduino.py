@@ -1,20 +1,15 @@
 import cv2
 import mediapipe as mp
 from . import servo_braco3d as mao
-import os
-from dotenv import load_dotenv
-load_dotenv()
-
-CAMERA = os.getenv('CAMERA')
 
 hands = mp.solutions.hands
 Hands = hands.Hands(max_num_hands=1)
 mpDwaw = mp.solutions.drawing_utils
 
-def gen_arduino_frames():
-    cap = cv2.VideoCapture(int(CAMERA))
-    cap.set(3, 1280)
-    cap.set(4, 720)
+def gen_arduino_frames(camera_index):
+    cap = cv2.VideoCapture(int(camera_index))
+    # cap.set(3, 1280)
+    # cap.set(4, 720)
     try:
         while True:
             success, img = cap.read()
