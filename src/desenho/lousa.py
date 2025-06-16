@@ -14,8 +14,8 @@ def gen_frames(camera_id):
         while True:
             success, img = video.read()
             if not success or img is None:
-                print("Erro: Não foi possível capturar a imagem da câmera!")
-                continue
+                print("Erro: Não foi possível capturar a imagem da câmera para a lousa!")
+                break
 
             img = cv2.flip(img, 1)
             resultado = detector.findHands(img, draw=True)

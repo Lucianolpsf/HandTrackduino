@@ -35,6 +35,8 @@ def abrir_fechar(pin,on_off):
     conectar_arduino()  # Certifique-se de que o Arduino está conectado antes de operar os pinos
     if on_off==1:
         rotateServo(pin, 0)
+    elif on_off==0 and pin == 8:
+        rotateServo(pin, 250)
     elif on_off==0 and pin!=10 and pin!=9:
         rotateServo(pin, 140)
     elif on_off == 0 and pin == 10:

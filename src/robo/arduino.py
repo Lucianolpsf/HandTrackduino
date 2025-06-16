@@ -14,8 +14,8 @@ def gen_arduino_frames(camera_index):
         while True:
             success, img = cap.read()
             if not success or img is None:
-                print("Erro: Não foi possível capturar a imagem da câmera!")
-                continue
+                print("Erro: Não foi possível capturar a imagem da câmera para o arduino!")
+                break
             frameRGB = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
             results = Hands.process(frameRGB)
             handPoints = results.multi_hand_landmarks
@@ -36,7 +36,7 @@ def gen_arduino_frames(camera_index):
                         distAnelar = pontos[13][1] - pontos[16][1]
                         distMinimo = pontos[17][1] - pontos[20][1]
 
-                        if distPolegar <80:
+                        if distPolegar <100:
                             mao.abrir_fechar(10,0)
                         else:
                             mao.abrir_fechar(10,1)
