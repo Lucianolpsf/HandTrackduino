@@ -1,4 +1,5 @@
 from flask import Flask, render_template, Response, jsonify, request
+from src.jokenpo.jokenpo import gen_jokenpo_frames
 from src.robo.servo_braco3d import rotina_automatica
 from services.cameras.camera import listar_cameras_disponiveis
 from services.github import get_cards
@@ -11,7 +12,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    visoes = ['Robô', 'Desenho']
+    visoes = ['Robô', 'Desenho', 'Jokenpo']
     cards_data = get_cards()
     return render_template('index.html', visoes=visoes, cards=cards_data)
 
@@ -19,6 +20,10 @@ def index():
 @app.route('/lousa')
 def lousa():
     return render_template('lousa.html')
+
+@app.route('/jokenpo')
+def jokenpo():
+    return render_template('jokenpo.html')
 
 
 @app.route('/arduino')
@@ -54,6 +59,9 @@ def video_lousa(camera_index):
 def video_arduino(camera_index):
     return Response(gen_arduino_frames(camera_index),mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/video_jokenpo/<int:camera_index>')
+def video_jokenpo(camera_index):
+    return Response(gen_jokenpo_frames(camera_index),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
     app.run(debug=True)
