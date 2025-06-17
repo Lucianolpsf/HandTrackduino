@@ -1,0 +1,310 @@
+/* Import the Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');    
+
+main {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    width: 100%;
+}
+
+/* Container principal do seu componente Jokenpo */
+.jokenpo-app-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Espaço entre as seções para um espaçador mais visível */
+    width: 100%;
+    max-width: 1400px; /* AUMENTADO NOVAMENTE: Largura máxima para ocupar mais espaço */
+    padding: 15px; /* Padding interno para o container principal */
+    box-sizing: border-box;
+    /* Remover background para que o fundo do pai seja visível. */
+}
+
+/* Seções principais do layout */
+.game-scoreboard-controls,
+.camera-robot-row,
+.bottom-messages-debug-row {
+    display: flex;
+    flex-wrap: wrap; /* Permite quebrar linha em telas pequenas */
+    gap: 20px; /* Espaço entre os cards dentro de cada linha */
+    justify-content: center;
+    width: 100%;
+}
+
+/* Estilos gerais para os cards */
+.card {
+    background-color: #ffffff; /* Fundo branco para os cards, que contrasta bem com azul */
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
+    padding: 20px; /* Padding interno reduzido para um look mais compacto */
+    flex: 1;
+    min-width: 300px; /* Largura mínima ajustada */
+    max-width: 1400px; /* AUMENTADO NOVAMENTE: Ajustado para caber bem em duas colunas dentro do novo max-width do container */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    box-sizing: border-box;
+    border: 1px solid #a7d9eb; /* Borda sutil com tom de azul claro */
+}
+
+.card:hover {
+    transform: translateY(-3px); /* Efeito de levantar mais sutil */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+h2 {
+    color: #26c6da; /* Ciano mais brilhante para títulos */
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 1.6rem; /* Tamanho de título ligeiramente menor */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px; /* Espaço abaixo do título do card */
+}
+
+/* --- Seção de Placar e Controles (Topo) --- */
+.game-scoreboard-controls {
+    max-width: 1000px; /* AUMENTADO NOVAMENTE: Permite que o card de cima seja mais largo */
+    padding-bottom: 15px; /* Reduz padding bottom */
+}
+
+.scoreboard-and-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px; /* Espaço antes dos botões */
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Espaçamento reduzido no placar */
+    margin: 10px 0; /* Margem reduzida */
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    background-color: #e3f2fd; /* Azul muito claro */
+    padding: 12px 25px; /* Padding reduzido */
+    border-radius: 8px; /* Cantos mais arredondados */
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.08);
+    width: auto; /* Deixa o placar ajustar sua largura ao conteúdo */
+    box-sizing: border-box;
+}
+
+.score { text-align: center; }
+.score span { color: #26c6da; font-size: 2.8rem; } /* Tamanho da pontuação ligeiramente menor */
+.separator { font-size: 2.8rem; color: #b0bec5; }
+
+.round-info {
+    margin-top: 5px; /* Ajusta espaçamento */
+    font-size: 1rem; /* Tamanho de fonte normal */
+    font-weight: 500;
+    width: 100%;
+    text-align: center;
+}
+.round-info span { color: #26c6da; font-weight: 700; }
+
+.jokenpo-controls {
+    display: flex;
+    gap: 10px; /* Espaço reduzido entre botões */
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* --- Seção de Câmeras (Meio) --- */
+.camera-section .video-container {
+    width: 100%;
+    max-width: 560px; /* AUMENTADO: Ajusta a largura máxima para a câmera */
+    aspect-ratio: 4 / 3; /* Proporção de 4:3 é mais comum para webcams */
+    border: 2px solid #a7d9eb;
+    background-color: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+#videoStream {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Garante que a imagem inteira seja visível */
+    display: block;
+    transform: scaleX(-1);
+    z-index: 1;
+}
+
+.status-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 6px 12px; /* Padding reduzido */
+    border-radius: 5px;
+    font-size: 0.8rem; /* Fonte menor */
+    z-index: 2;
+}
+
+.player-info-live {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.player-info-live p {
+    margin: 0 0 8px 0;
+    font-weight: 600;
+    color: #334e68;
+    font-size: 0.95rem; /* Fonte ligeiramente menor */
+}
+
+.player-info-live .gesture-icon {
+    font-size: 3.5rem; /* Tamanho de ícone ligeiramente menor */
+    color: #26c6da;
+}
+
+.robot-section .robot-status {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4db6ac;
+    margin: 0;
+}
+
+.robot-section .gesture-icon {
+    font-size: 5.5rem; /* Tamanho de ícone ligeiramente menor */
+    color: #26c6da;
+}
+
+.ai-game-feedback {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.ai-game-feedback .countdown-ai {
+    font-size: 1.6rem; /* Fonte reduzida */
+    font-weight: 700;
+    color: #ff9800;
+    margin: 0;
+}
+
+.ai-game-feedback .result-ai {
+    font-size: 1.3rem; /* Fonte reduzida */
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+}
+.ai-game-feedback .result-ai.won { color: #4caf50; }
+.ai-game-feedback .result-ai.lost { color: #f44336; }
+.ai-game-feedback .result-ai.draw { color: #ffeb3b; }
+
+
+/* --- Botões Gerais --- */
+.button {
+    padding: 10px 20px; /* Padding reduzido */
+    border: none;
+    border-radius: 6px; /* Cantos mais suaves */
+    cursor: pointer;
+    font-size: 0.9rem; /* Fonte ligeiramente menor */
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.button.primary { background-color: #26c6da; color: white; }
+.button.primary:hover { background-color: #00bcd4; }
+.button.danger { background-color: #ef5350; color: white; }
+.button.danger:hover { background-color: #e53935; }
+.button.success { background-color: #66bb6a; color: white; }
+.button.success:hover { background-color: #43a047; }
+.button.info { background-color: #90a4ae; color: white; }
+.button.info:hover { background-color: #78909c; }
+
+
+.result-message-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; /* Espaço reduzido */
+    min-height: 80px; /* Garante altura mínima para a área de mensagens */
+    justify-content: center; /* Centraliza o conteúdo verticalmente */
+}
+
+#round-result-main {
+    font-size: 1.6rem; /* Fonte ligeiramente menor */
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+}
+#round-result-main.won { color: #4caf50; }
+#round-result-main.lost { color: #f44336; }
+#round-result-main.draw { color: #ffeb3b; }
+
+.countdown-display { margin: 0; }
+#countdown-message {
+    font-size: 2rem; /* Fonte ligeiramente menor */
+    font-weight: 700;
+    color: #ff9800;
+    transition: color 0.3s ease;
+    margin: 0;
+}
+
+/* --- Seção de Debug (Fundo) --- */
+.debug-info-section {
+    text-align: left;
+}
+
+.debug-content {
+    width: 100%;
+    min-height: 150px; /* Garante altura mínima para o conteúdo de debug */
+}
+
+.debug-info-section h3 {
+    margin-top: 0;
+    color: #26c6da;
+    font-size: 1.1rem; /* Fonte ligeiramente menor */
+    margin-bottom: 8px;
+}
+.debug-info-section p { margin: 0 0 4px 0; font-weight: 600; font-size: 0.9rem; } /* Fonte menor */
+.debug-info-section span { font-weight: 400; color: #3f51b5; } /* Azul mais escuro */
+#jokenpo-json-display {
+    background-color: #e0f2f7;
+    border: 1px solid #b3e0ed;
+    border-radius: 8px;
+    padding: 8px; /* Padding reduzido */
+    margin-top: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.75rem; /* Fonte menor para JSON */
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 120px; /* Altura ajustada */
+    overflow-y: auto;
+    width: 100%;
+    text-align: left;
+    box-sizing: border-box;
+}
