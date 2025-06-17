@@ -6,10 +6,19 @@ hands = mp.solutions.hands
 Hands = hands.Hands(max_num_hands=1)
 mpDwaw = mp.solutions.drawing_utils
 
+
+def mao_aberta():
+    mao.abrir_fechar(10, 1)
+    mao.abrir_fechar(9, 1)
+    mao.abrir_fechar(8, 1)
+    mao.abrir_fechar(7, 0)
+    mao.abrir_fechar(6, 0)
+
 def gen_arduino_frames(camera_index):
     cap = cv2.VideoCapture(int(camera_index))
     # cap.set(3, 1280)
     # cap.set(4, 720)
+
     try:
         while True:
             success, img = cap.read()
@@ -36,34 +45,48 @@ def gen_arduino_frames(camera_index):
                         distAnelar = pontos[13][1] - pontos[16][1]
                         distMinimo = pontos[17][1] - pontos[20][1]
 
-                        if distPolegar <100:
-                            mao.abrir_fechar(10,0)
+                        gesto_sinal_proibido = (
+                            distMedio >= 1 and 
+                            distIndicador < 5 and 
+                            distAnelar < 5 and 
+                            distMinimo < 1 and 
+                            distPolegar >= 1
+                        )
+                        if gesto_sinal_proibido:
+                            x, y, w_box, h_box = 30, 30, 400, 70
+                            cv2.rectangle(img, (x, y), (x + w_box, y + h_box), (0, 0, 255), -1)
+                            cv2.putText(img, 'SINAL PROIBIDO!', (x + 10, y + 50),
+                                        cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 4)
+                            mao_aberta()
                         else:
-                            mao.abrir_fechar(10,1)
+                            if distPolegar < 80:
+                                mao.abrir_fechar(10, 0)
+                            else:
+                                mao.abrir_fechar(10, 1)
 
-                        if distIndicador >=1:
-                            mao.abrir_fechar(9,1)
-                        else:
-                            mao.abrir_fechar(9,0)
+                            if distIndicador >= 1:
+                                mao.abrir_fechar(9, 1)
+                            else:
+                                mao.abrir_fechar(9, 0)
 
-                        if distMedio >=1:
-                            mao.abrir_fechar(8,1)
-                        else:
-                            mao.abrir_fechar(8,0)
+                            if distMedio >= 1:
+                                mao.abrir_fechar(8, 1)
+                            else:
+                                mao.abrir_fechar(8, 0)
 
-                        if distAnelar >=1:
-                            mao.abrir_fechar(7,0)
-                        else:
-                            mao.abrir_fechar(7,1)
+                            if distAnelar >= 1:
+                                mao.abrir_fechar(7, 0)
+                            else:
+                                mao.abrir_fechar(7, 1)
 
-                        if distMinimo >=1:
-                            mao.abrir_fechar(6,0)
-                        else:
-                            mao.abrir_fechar(6,1)
+                            if distMinimo >= 1:
+                                mao.abrir_fechar(6, 0)
+                            else:
+                                mao.abrir_fechar(6, 1)
 
             ret, buffer = cv2.imencode('.jpg', img)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
     finally:
-        cap.release()
+     cap.release()
