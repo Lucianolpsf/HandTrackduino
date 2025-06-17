@@ -97,7 +97,7 @@ def _executar_rotina():
                 time.sleep(0.4)
 
         indice = (indice + 1) % len(gestos)
-        for _ in range(10):
+        for _ in range(5):
             if not modo_automatico: break
             time.sleep(1)
 
