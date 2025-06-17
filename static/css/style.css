@@ -2,6 +2,7 @@
 @import url(./header.css);
 @import url(./sidebar.css);
 @import url(./github_card.css);
+@import url(./switch_button.css);
 
 :root {
     --primary: linear-gradient(to right, white, #0D47A1); 

@@ -1,4 +1,5 @@
-from flask import Flask, render_template, Response, jsonify
+from flask import Flask, render_template, Response, jsonify, request
+from src.robo.servo_braco3d import rotina_automatica
 from services.cameras.camera import listar_cameras_disponiveis
 from services.github import get_cards
 from src.robo.arduino import gen_arduino_frames
@@ -13,6 +14,7 @@ def index():
     visoes = ['Robô', 'Desenho']
     cards_data = get_cards()
     return render_template('index.html', visoes=visoes, cards=cards_data)
+
 
 @app.route('/lousa')
 def lousa():
@@ -34,6 +36,13 @@ def cameras():
 def cards_json():
     cards_data = get_cards()
     return jsonify(cards_data)
+
+
+@app.route("/arduino_automatico")
+def arduino_automatico():
+    estado = request.args.get("estado", "off")
+    rotina_automatica(on=(estado == "on"))
+    return f"Modo automático {'ativado' if estado == 'on' else 'desativado'}"
 
 
 @app.route('/video_lousa/<int:camera_index>')
