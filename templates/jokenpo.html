@@ -1,0 +1,54 @@
+<div class="jokenpo-app-container">
+        <!-- Seção da Câmera (Jogador) -->
+        <section class="camera-section card">
+            <h2><i class="fas fa-video"></i> Sua Câmera</h2>
+            <div id='jokenpo'class="video-container">
+                <img id="videoStream" alt="Câmera do Jogador">
+                <p id="camera-status" class="status-message">Conectando à câmera...</p>
+            </div>
+        </section>
+
+        <!-- Seção do Placar e Controles -->
+        <section class="game-scoreboard-controls card">
+            <h2><i class="fas fa-gamepad"></i> Jogo & Controles</h2>
+            <div class="scoreboard-and-info-wrapper">
+                <!-- Placar -->
+                <div class="scoreboard">
+                    <div class="score">
+                        <span class="player-score" id="player-score">0</span>
+                        <p>Jogador</p>
+                    </div>
+                    <div class="separator">-</div>
+                    <div class="score">
+                        <span class="ai-score" id="ai-score">0</span>
+                        <p>IA</p>
+                    </div>
+                </div>
+                <div class="round-info">
+                    <p>Empates: <span id="ties">0</span> | Rodadas: <span id="rounds-played">0</span></p>
+                </div>
+            </div>
+
+            <!-- Botões de Controle do Jogo -->
+            <div class="jokenpo-controls">
+                <button id="play-round-button" class="button success"><i class="fas fa-fist-raised"></i> Jogar Rodada</button>
+                <button id="reset-scoreboard" class="button info"><i class="fas fa-sync-alt"></i> Reiniciar Placar</button>
+            </div>
+        </section>
+            <!-- Informações de resultado e contagem regressiva para a IA -->
+            <div class="ai-game-feedback">
+                <p id="ai-countdown-message" class="countdown-ai"></p>
+                <p id="ai-result-message" class="result-ai"></p>
+            </div>
+        </section>
+        <!-- Seção de Debug do Backend -->
+        <section class="debug-info-section card">
+            <h2><i class="fas fa-bug"></i> Debug do Backend</h2>
+            <div class="debug-content">
+                <p>Mão Detectada: <span id="hand-detected-status">Não</span></p>
+                <p>Gesto Detectado (Backend): <span id="detected-gesture-feedback">Nenhum</span></p>
+                <h3>Estado Completo do Jokenpo (JSON):</h3>
+                <pre id="jokenpo-json-display">{}</pre>
+            </div>
+        </section>
+    </div>
