@@ -1,4 +1,6 @@
 import cv2
+import time
+import numpy as np
 import mediapipe as mp
 from . import servo_braco3d as mao
 
@@ -7,11 +9,14 @@ Hands = hands.Hands(max_num_hands=1)
 mpDwaw = mp.solutions.drawing_utils
 
 def gen_arduino_frames(camera_index):
+    last_detected_time = time.time()
+    in_rest_position = False
     cap = cv2.VideoCapture(int(camera_index))
     # cap.set(3, 1280)
     # cap.set(4, 720)
     try:
         while True:
+            current_time = time.time()
             success, img = cap.read()
             if not success or img is None:
                 print("Erro: Não foi possível capturar a imagem da câmera para o arduino!")
@@ -22,6 +27,10 @@ def gen_arduino_frames(camera_index):
             h, w, _ = img.shape
             pontos = []
             if handPoints:
+                last_detected_time = current_time  # Atualiza porque detectou mão
+                if in_rest_position:
+                    print("Mão detectada novamente, saindo da posição de descanso.")
+                    in_rest_position = False
                 for points in handPoints:
                     mpDwaw.draw_landmarks(img, points,hands.HAND_CONNECTIONS)
                     for id, cord in enumerate(points.landmark):
@@ -60,6 +69,38 @@ def gen_arduino_frames(camera_index):
                             mao.abrir_fechar(6,0)
                         else:
                             mao.abrir_fechar(6,1)
+
+            
+            # Verifica inatividade
+            if current_time - last_detected_time > 5:
+                if not in_rest_position:
+                    print("Nenhuma mão detectada por 5 segundos. Voltando para a posição padrão.")
+                    mao.liberar_servos()
+                    in_rest_position = True
+
+            
+            # Cria uma camada de sobreposição transparente
+            overlay = img.copy()
+
+            if current_time - last_detected_time > 5:
+                # Estado de descanso
+                texto = "Mao em Descanso"
+                cor = (0, 0, 255)  # Vermelho
+                posicao = (50, 50)
+            else:
+                texto = "Mao Detectada"
+                cor = (0, 255, 0)  # Verde
+                posicao = (50, 50)
+
+            # Desenha um retângulo semi-transparente
+            cv2.rectangle(overlay, (posicao[0]-10, posicao[1]-30), (posicao[0]+500, posicao[1]+10), (0,0,0), -1)
+
+            # Faz blend entre a imagem original e o overlay
+            alpha = 0.4
+            cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0, img)
+
+            # Coloca o texto por cima
+            cv2.putText(img, texto, posicao, cv2.FONT_HERSHEY_SIMPLEX, 1, cor, 2)
 
             ret, buffer = cv2.imencode('.jpg', img)
             frame = buffer.tobytes()
