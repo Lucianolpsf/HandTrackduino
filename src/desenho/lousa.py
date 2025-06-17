@@ -28,20 +28,20 @@ def gen_frames(camera_id):
 
                 if dedosLev == 1:
                     x, y = lmlist[8][0], lmlist[8][1]
-                    cv2.circle(img, (x, y), 15, (0, 0, 255), cv2.FILLED)
+                    cv2.circle(img, (x, y), 15, (255, 0, 0), cv2.FILLED)
                     desenho.append((x, y))
-                elif dedosLev != 1 and dedosLev != 3:
+                elif dedosLev != 1 and dedosLev != 5:
                     desenho.append((0, 0))
-                elif dedosLev == 3:
+                elif dedosLev == 5:
                     desenho = []
 
                 for id, ponto in enumerate(desenho):
                     x, y = ponto
-                    cv2.circle(img, (x, y), 10, (0, 0, 255), cv2.FILLED)
+                    cv2.circle(img, (x, y), 10, (255, 0, 0), cv2.FILLED)
                     if id >= 1:
                         ax, ay = desenho[id-1]
                         if x != 0 and ax != 0:
-                            cv2.line(img, (x, y), (ax, ay), (0, 0, 255), 20)
+                            cv2.line(img, (x, y), (ax, ay), (255, 0, 0), 20)
 
             ret, buffer = cv2.imencode('.jpg', img)
             frame = buffer.tobytes()
