@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SENAI - Visão computacional</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jokenpo.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     {% include 'components/header.html' %}
@@ -28,5 +30,6 @@
     <script src="{{ url_for('static', filename='js/github_cash.js') }}"></script>
     <script src="{{ url_for('static', filename='js/camera.js') }}"></script>
     <script src="{{ url_for('static', filename='js/arduino_automatico.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jokenpo_logic.js') }}"></script>
 </body>
 </html>
