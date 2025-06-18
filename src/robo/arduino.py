@@ -98,7 +98,7 @@ def gen_arduino_frames(camera_index):
             if current_time - last_detected_time > 5:
                 if not in_rest_position:
                     print("Nenhuma mão detectada por 5 segundos. Voltando para a posição padrão.")
-                    mao.liberar_servos()
+                    mao_aberta()
                     in_rest_position = True
 
             
@@ -109,14 +109,14 @@ def gen_arduino_frames(camera_index):
                 # Estado de descanso
                 texto = "Mao em Descanso"
                 cor = (0, 0, 255)  # Vermelho
-                posicao = (50, 50)
+                posicao = (10, 30)
             else:
                 texto = "Mao Detectada"
                 cor = (0, 255, 0)  # Verde
-                posicao = (50, 50)
+                posicao = (10, 30)
 
             # Desenha um retângulo semi-transparente
-            cv2.rectangle(overlay, (posicao[0]-10, posicao[1]-30), (posicao[0]+500, posicao[1]+10), (0,0,0), -1)
+            cv2.rectangle(overlay, (posicao[0]-10, posicao[1]-30), (posicao[0]+300, posicao[1]+10), (0,0,0), -1)
 
             # Faz blend entre a imagem original e o overlay
             alpha = 0.4

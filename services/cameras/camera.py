@@ -2,7 +2,7 @@ import cv2
 import threading
 
 
-def try_open_camera(index, result, timeout=45.0):
+def try_open_camera(index, result, timeout=50.0):
     """
     Tenta abrir a câmera no índice especificado com timeout.
     Se conseguir abrir, adiciona o índice à lista result.
@@ -18,7 +18,7 @@ def try_open_camera(index, result, timeout=45.0):
     if thread.is_alive():
         return
 
-def listar_cameras_disponiveis(max_index=5, timeout=45.0):
+def listar_cameras_disponiveis(max_index=5, timeout=50.0):
     """
     Lista os índices das câmeras disponíveis usando threads e timeout.
     """
