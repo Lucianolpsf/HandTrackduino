@@ -253,9 +253,7 @@ h2 {
 
 
 /* --- Seção de Mensagens Principais (Fundo) --- */
-.main-messages-section {
-    /* Herda de .card */
-}
+/* .main-messages-section herda de .card */
 
 .result-message-area {
     width: 100%;
