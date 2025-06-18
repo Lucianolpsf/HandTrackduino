@@ -1,27 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Elementos HTML da Câmera e Controles de Processamento ---
-    const cameraFeed = document.getElementById('camera-feed');
+    // --- Elementos HTML da Câmera e Jokenpo ---
+    const cameraFeed = document.getElementById('camera-feed'); 
     const cameraStatus = document.getElementById('camera-status');
-    const startProcessingButton = document.getElementById('start-processing');
-    const stopProcessingButton = document.getElementById('stop-processing');
+    // REMOVIDOS: startProcessingButton, stopProcessingButton (porque os botões foram removidos do HTML)
 
     // --- Ícones de Gesto ---
-    const playerLiveGestureIcon = document.getElementById('player-live-gesture-icon'); // Ícone do gesto ao vivo do jogador
-    const robotChoiceIcon = document.getElementById('robot-choice-icon'); // Ícone da mão robótica (IA)
+    const playerLiveGestureIcon = document.getElementById('player-live-gesture-icon');
+    const robotChoiceIcon = document.getElementById('robot-choice-icon');
 
-    // --- Jokenpo HTML Elements (scoreboard) ---
+    // --- Jokenpo HTML Elements (placar) ---
     const playerScoreSpan = document.getElementById('player-score');
     const aiScoreSpan = document.getElementById('ai-score');
     const tiesSpan = document.getElementById('ties'); 
     const roundsPlayedSpan = document.getElementById('rounds-played');
     
-    // --- Game Feedback Area elements (mensagens de jogo) ---
+    // --- Área de Mensagens do Jogo ---
     const roundResultMain = document.getElementById('round-result-main'); 
-    const countdownMessageElement = document.getElementById('countdown-message'); 
-    const aiCountdownMessage = document.getElementById('ai-countdown-message'); // Contagem regressiva para IA
-    const aiResultMessage = document.getElementById('ai-result-message'); // Resultado da IA
+    // REMOVIDOS: countdownMessageElement (não existe em jokenpo_game_state do app.py)
+    const aiCountdownMessage = document.getElementById('ai-countdown-message'); // Apenas um placeholder, não preenchido
+    const aiResultMessage = document.getElementById('ai-result-message'); 
 
-    // --- Control Buttons and Debug Info ---
+    // --- Botões de Controle e Informações de Depuração ---
     const playRoundButton = document.getElementById('play-round-button');
     const finishRoundButton = document.getElementById('finish-round-button'); 
     const resetScoreboardButton = document.getElementById('reset-scoreboard');
@@ -34,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
         "Pedra": "fas fa-hand-rock",
         "Papel": "fas fa-hand-paper",
         "Tesoura": "fas fa-hand-scissors",
-        "Nenhum": "fas fa-question", // Ícone padrão
-        "Indefinido": "fas fa-question" // Para "Indefinido" (Undefined) gesture
+        "Nenhum": "fas fa-question", 
+        "Indefinido": "fas fa-question" 
     };
 
     // --- Função para atualizar o estado do Jokenpo e a UI ---
@@ -43,13 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/jokenpo_game_status');
             if (!response.ok) {
-                throw new Error(`HTTP Error: ${response.status}`);
+                throw new Error(`Erro HTTP: ${response.status}`);
             }
             const data = await response.json();
             
             jokenpoJsonDisplay.textContent = JSON.stringify(data, null, 2);
 
-            // Update camera status
+            // Atualiza o status da câmera
             if (data.camera_is_active) {
                 cameraStatus.textContent = 'Câmera do Backend Ativa';
                 cameraStatus.style.backgroundColor = 'rgba(46, 204, 113, 0.8)'; 
@@ -58,44 +57,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 cameraStatus.style.backgroundColor = 'rgba(231, 76, 60, 0.8)'; 
             }
 
-            // Update main scoreboard elements
+            // Atualiza os elementos do placar
             playerScoreSpan.textContent = data.player_score;
             aiScoreSpan.textContent = data.ai_score;
-            tiesSpan.textContent = data.ties; 
+            tiesSpan.textContent = data.ties || 0; 
             roundsPlayedSpan.textContent = data.rounds_played;
 
-            // Update player's live gesture icon
-            playerLiveGestureIcon.innerHTML = `<i class="${jokenpoIcons[data.current_gesture_detected]}"></i>`;
+            // Atualiza o ícone do gesto ao vivo do jogador (usa 'current_gesture' do backend)
+            playerLiveGestureIcon.innerHTML = `<i class="${jokenpoIcons[data.current_gesture]}"></i>`;
             
-            // Update AI's choice icon
+            // Atualiza o ícone da escolha da IA
             robotChoiceIcon.innerHTML = `<i class="${jokenpoIcons[data.ai_choice]}"></i>`; 
 
-            // Update round result message and its color
-            roundResultMain.textContent = data.result_message;
-            roundResultMain.className = ''; 
-            if (data.result_message.includes('Você venceu!')) {
+            // Atualiza a mensagem de resultado da rodada
+            roundResultMain.textContent = data.result; 
+            roundResultMain.className = ''; // Reseta classes
+            if (data.result === 'Ganhou') { 
                 roundResultMain.classList.add('won');
-            } else if (data.result_message.includes('Robô venceu!')) {
+            } else if (data.result === 'Perdeu') {
                 roundResultMain.classList.add('lost');
-            } else if (data.result_message.includes('Empate!')) {
+            } else if (data.result === 'Empate') {
                 roundResultMain.classList.add('draw');
+            } else { // Caso "Aguardando Jogada"
+                roundResultMain.classList.add('neutral');
             }
 
-            // Update AI's game feedback (countdown and result)
-            aiCountdownMessage.textContent = data.countdown_message; // AI também mostra a contagem
-
-            aiResultMessage.textContent = data.result_message; // AI também mostra o resultado final
-            aiResultMessage.className = 'result-ai'; // Reset classes
-            if (data.result_message.includes('Você venceu!')) {
-                aiResultMessage.classList.add('lost'); // Se o jogador venceu, a IA perdeu
-            } else if (data.result_message.includes('Robô venceu!')) {
-                aiResultMessage.classList.add('won'); // Se a IA venceu, a IA venceu
-            } else if (data.result_message.includes('Empate!')) {
-                aiResultMessage.classList.add('draw'); // Se empatou, a IA empatou
+            // AI's game feedback (usando 'result')
+            aiCountdownMessage.textContent = ""; // Backend não fornece contagem regressiva específica para IA aqui
+            aiResultMessage.textContent = data.result; 
+            aiResultMessage.className = 'result-ai'; // Reseta classes
+            if (data.result === 'Ganhou') {
+                aiResultMessage.classList.add('lost'); // Se jogador venceu, IA perdeu
+            } else if (data.result === 'Perdeu') {
+                aiResultMessage.classList.add('won'); // Se IA venceu, IA venceu
+            } else if (data.result === 'Empate') {
+                aiResultMessage.classList.add('draw'); 
+            } else {
+                 aiResultMessage.classList.add('neutral');
             }
 
-
-            // Update hand detection status (for debug info)
+            // Atualiza o status de detecção de mão (para depuração)
             if (data.hand_detected) {
                 handDetectedStatus.textContent = 'Sim';
                 handDetectedStatus.style.color = '#2ecc71';
@@ -104,44 +105,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 handDetectedStatus.style.color = '#e74c3c';
             }
 
-            // Update detected gesture feedback from backend (for debug info)
-            detectedGestureFeedback.textContent = data.current_gesture_detected;
+            // Atualiza o feedback do gesto detectado pelo backend (para depuração)
+            detectedGestureFeedback.textContent = data.current_gesture;
 
-            // Update MediaPipe processing status and button states
-            if (data.mediapipe_processing_active) {
-                startProcessingButton.style.display = 'none';
-                stopProcessingButton.style.display = 'inline-flex';
-                
-                if (data.game_phase === "waiting_start") {
-                    playRoundButton.style.display = 'inline-flex';
-                    playRoundButton.disabled = false;
-                    finishRoundButton.style.display = 'none';
-                } else if (data.game_phase === "counting_down") {
-                    playRoundButton.style.display = 'inline-flex';
-                    playRoundButton.disabled = true; 
-                    finishRoundButton.style.display = 'none';
-                } else if (data.game_phase === "round_finished") {
-                    playRoundButton.style.display = 'none'; 
-                    finishRoundButton.style.display = 'inline-flex';
-                    finishRoundButton.disabled = false; 
-                } else { 
-                    playRoundButton.style.display = 'none';
-                    finishRoundButton.style.display = 'none';
-                }
-
-            } else { // MediaPipe processing is NOT active
-                startProcessingButton.style.display = 'inline-flex';
-                stopProcessingButton.style.display = 'none';
-                playRoundButton.style.display = 'inline-flex'; 
-                playRoundButton.disabled = true;
-                finishRoundButton.style.display = 'none'; 
+            // --- Lógica de Habilitação/Desabilitação de Botões ---
+            // O botão "Jogar Rodada" deve ser desabilitado se não houver mão detectada
+            // ou se o resultado ainda não foi determinado ("Aguardando Jogada")
+            if (!data.hand_detected || data.result !== "Aguardando Jogada") {
+                 playRoundButton.disabled = true;
+            } else {
+                playRoundButton.disabled = false;
             }
 
-            // Update countdown message (main display)
-            countdownMessageElement.textContent = data.countdown_message;
+            // O botão "Terminar Rodada" está sempre oculto (você pode remover do HTML se não for usar)
+            finishRoundButton.style.display = 'none';
+            
+            // Re-habilitar o botão de jogar se o resultado for algo diferente de "Aguardando Jogada"
+            // Isso permite clicar para iniciar uma nova rodada após o término de uma.
+            if (data.result === "Ganhou" || data.result === "Perdeu" || data.result === "Empate") {
+                playRoundButton.disabled = false; 
+                playRoundButton.textContent = "Jogar Novamente"; 
+                playRoundButton.classList.remove('success'); 
+                playRoundButton.classList.add('info'); 
+            } else {
+                playRoundButton.textContent = "Jogar Rodada"; 
+                playRoundButton.classList.remove('info');
+                playRoundButton.classList.add('success');
+            }
 
         } catch (error) {
-            console.error('Error getting Jokenpo status:', error);
+            console.error('Erro ao obter status do Jokenpo:', error);
             roundResultMain.textContent = "Erro de Conexão com Backend.";
             roundResultMain.classList.add('lost');
             cameraStatus.textContent = 'Erro de Conexão com Backend';
@@ -151,69 +144,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Intervalo de atualização do display do jogo
     setInterval(updateJokenpoGameDisplay, 100);
 
-    // --- Processing and Game Controls ---
-    startProcessingButton.addEventListener('click', async () => {
-        try {
-            const response = await fetch('/control_processing/start');
-            const data = await response.json();
-            console.log('Processing control:', data.message);
-            updateJokenpoGameDisplay();
-        } catch (error) {
-            console.error('Error starting processing:', error);
-        }
-    });
-
-    stopProcessingButton.addEventListener('click', async () => {
-        try {
-            const response = await fetch('/control_processing/stop');
-            const data = await response.json();
-            console.log('Processing control:', data.message);
-            updateJokenpoGameDisplay();
-        } catch (error) {
-            console.error('Error stopping processing:', error);
-        }
-    });
+    // --- Controles de Jogo ---
+    // startProcessingButton e stopProcessingButton REMOVIDOS do JS
 
     playRoundButton.addEventListener('click', async () => {
         try {
-            const response = await fetch('/play_jokenpo');
+            // A rota play_jokenpo do backend não espera o player_choice no URL
+            // Ela usa o 'current_gesture' já disponível no jokenpo_game_state no backend.
+            const response = await fetch('/play_jokenpo'); // Chamada sem parâmetro no URL
             const data = await response.json();
-            console.log('Round Start Message:', data.message);
+            console.log('Resultado da jogada:', data);
 
             if (data.status === "error") {
-                alert(data.message);
+                // Substituir alert por uma mensagem no frontend para melhor UX
+                roundResultMain.textContent = data.message;
+                roundResultMain.classList.add('lost'); // Indicar erro
             }
-            updateJokenpoGameDisplay();
+            updateJokenpoGameDisplay(); // Força atualização do display
         } catch (error) {
-            console.error('Error initiating round:', error);
-            alert('Não foi possível iniciar a rodada. Verifique a conexão com o servidor.');
+            console.error('Erro ao iniciar rodada:', error);
+            roundResultMain.textContent = 'Não foi possível iniciar a rodada. Verifique a conexão com o servidor.';
+            roundResultMain.classList.add('lost'); // Indicar erro
         }
     });
 
-    finishRoundButton.addEventListener('click', async () => {
-        try {
-            const response = await fetch('/finish_round');
-            const data = await response.json();
-            console.log('Finish Round Message:', data.message);
-            updateJokenpoGameDisplay();
-        } catch (error) {
-            console.error('Error finishing round:', error);
-            alert('Não foi possível terminar a rodada. Verifique a conexão com o servidor.');
-        }
-    });
+    // finishRoundButton.addEventListener (ainda com display:none no HTML)
 
     resetScoreboardButton.addEventListener('click', async () => {
         try {
             const response = await fetch('/reset_jokenpo');
             const data = await response.json();
-            console.log('Scoreboard Reset:', data.message);
-            updateJokenpoGameDisplay();
+            console.log('Placar Resetado:', data.message);
+            updateJokenpoGameDisplay(); // Força atualização do display
         } catch (error) {
-            console.error('Error resetting scoreboard:', error);
+            console.error('Erro ao resetar placar:', error);
         }
     });
 
+    // Chama a função de atualização do Jokenpo na inicialização da página
     updateJokenpoGameDisplay(); 
 });

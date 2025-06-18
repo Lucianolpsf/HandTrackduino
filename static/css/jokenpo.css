@@ -5,31 +5,32 @@
 .jokenpo-app-container {
     display: flex;
     flex-direction: column;
-    gap: 30px; /* Espaço entre as seções para um espaçador mais visível */
+    gap: 1.5rem; /* Espaço entre as seções em rem */
     width: 100%;
     max-width: 1400px; /* Largura máxima para ocupar mais espaço */
-    padding: 15px; /* Padding interno para o container principal */
+    padding: 1rem; /* Padding interno para o container principal em rem */
     box-sizing: border-box; 
-    margin: 20px auto; /* Centraliza e adiciona margem */
+    margin: 1.25rem auto; /* Centraliza e adiciona margem em rem */
+    background-color: white; /* ADICIONADO: Fundo branco para o container principal do Jokenpo */
 }
 
 /* Seções principais do layout */
-.top-info-controls-row,
-.camera-robot-row,
-.bottom-messages-debug-row {
+.jokenpo-app-container .top-info-controls-row,
+.jokenpo-app-container .camera-robot-row,
+.jokenpo-app-container .bottom-messages-debug-row {
     display: flex;
     flex-wrap: wrap; /* Permite quebrar linha em telas pequenas */
-    gap: 20px; /* Espaço entre os cards dentro de cada linha */
+    gap: 1.25rem; /* Espaço entre os cards dentro de cada linha em rem */
     justify-content: center;
     width: 100%;
 }
 
-/* Estilos gerais para os cards */
-.card {
+/* Estilos gerais para os cards DENTRO do container Jokenpo */
+.jokenpo-app-container .card {
     background-color: #ffffff; /* Fundo branco para os cards, que contrasta bem com azul */
-    border-radius: 12px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra mais suave */
-    padding: 20px; /* Padding interno reduzido para um look mais compacto */
+    border-radius: 0.75rem; /* Em rem */
+    box-shadow: 0 0.375rem 0.75rem rgba(0, 0, 0, 0.1); /* Sombra mais suave em rem */
+    padding: 1.25rem; /* Padding interno reduzido para um look mais compacto em rem */
     flex: 1; 
     min-width: 300px; /* Largura mínima ajustada */
     max-width: 680px; /* Ajustado para caber bem em duas colunas dentro do novo max-width do container */
@@ -42,90 +43,90 @@
     border: 1px solid #a7d9eb; /* Borda sutil com tom de azul claro */
 }
 
-.card:hover {
-    transform: translateY(-3px); /* Efeito de levantar mais sutil */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+.jokenpo-app-container .card:hover {
+    transform: translateY(-0.1875rem); /* Efeito de levantar mais sutil em rem */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Em rem */
 }
 
-h2 {
+.jokenpo-app-container h2 {
     color: #26c6da; /* Ciano mais brilhante para títulos */
     margin-top: 0;
     font-weight: 600;
-    font-size: 1.6rem; /* Tamanho de título ligeiramente menor */
+    font-size: 1.6rem; /* Tamanho de título ligeiramente menor em rem */
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 15px; /* Espaço abaixo do título do card */
+    gap: 0.5rem; /* Em rem */
+    margin-bottom: 0.9375rem; /* Espaço abaixo do título do card em rem */
 }
 
 /* --- Seção de Placar e Controles (Topo) --- */
-.game-scoreboard-controls {
+.jokenpo-app-container .game-scoreboard-controls {
     max-width: 1000px; /* Permite o card de cima ser mais largo */
-    padding-bottom: 15px; /* Reduz padding bottom */
+    padding-bottom: 0.9375rem; /* Reduz padding bottom em rem */
 }
 
-.scoreboard-and-info-wrapper {
+.jokenpo-app-container .scoreboard-and-info-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-bottom: 15px; /* Espaço antes dos botões */
+    margin-bottom: 0.9375rem; /* Espaço antes dos botões em rem */
 }
 
-.scoreboard {
+.jokenpo-app-container .scoreboard {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px; /* Espaçamento reduzido no placar */
-    margin: 10px 0; /* Margem reduzida */
+    gap: 0.9375rem; /* Espaçamento reduzido no placar em rem */
+    margin: 0.625rem 0; /* Margem reduzida em rem */
     font-size: 1.8rem;
     font-weight: 700;
     color: #2c3e50;
     background-color: #e3f2fd; /* Azul muito claro */
-    padding: 12px 25px; /* Padding reduzido */
-    border-radius: 8px; /* Cantos mais arredondados */
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.08);
+    padding: 0.75rem 1.5625rem; /* Padding reduzido em rem */
+    border-radius: 0.5rem; /* Cantos mais arredondados em rem */
+    box-shadow: inset 0 0 0.375rem rgba(0, 0, 0, 0.08); /* Em rem */
     width: auto; /* Deixa o placar ajustar sua largura ao conteúdo */
     box-sizing: border-box;
 }
 
-.score { text-align: center; }
-.score span { color: #26c6da; font-size: 2.8rem; } /* Tamanho da pontuação ligeiramente menor */
-.separator { font-size: 2.8rem; color: #b0bec5; }
+.jokenpo-app-container .score { text-align: center; }
+.jokenpo-app-container .score span { color: #26c6da; font-size: 2.8rem; } /* Tamanho da pontuação ligeiramente menor em rem */
+.jokenpo-app-container .separator { font-size: 2.8rem; color: #b0bec5; }
 
-.round-info {
-    margin-top: 5px; /* Ajusta espaçamento */
-    font-size: 1rem; /* Tamanho de fonte normal */
+.jokenpo-app-container .round-info {
+    margin-top: 0.3125rem; /* Ajusta espaçamento em rem */
+    font-size: 1rem; /* Tamanho de fonte normal em rem */
     font-weight: 500;
     width: 100%;
     text-align: center;
 }
-.round-info span { color: #26c6da; font-weight: 700; }
+.jokenpo-app-container .round-info span { color: #26c6da; font-weight: 700; }
 
-.jokenpo-controls {
+.jokenpo-app-container .jokenpo-controls {
     display: flex;
-    gap: 10px; /* Espaço reduzido entre botões */
+    gap: 0.625rem; /* Espaço reduzido entre botões em rem */
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 0.625rem; /* Em rem */
 }
 
 /* --- Seção de Câmeras (Meio) --- */
-.camera-section .video-container {
+.jokenpo-app-container .camera-section .video-container {
     width: 100%;
     max-width: 560px; /* Ajusta a largura máxima para a câmera */
     aspect-ratio: 4 / 3; /* Proporção de 4:3 é mais comum para webcams */
     border: 2px solid #a7d9eb;
     background-color: #000;
-    border-radius: 8px;
+    border-radius: 0.5rem; /* Em rem */
     overflow: hidden;
-    margin-bottom: 15px;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 0.9375rem; /* Em rem */
+    box-shadow: inset 0 0 0.5rem rgba(0, 0, 0, 0.2); /* Em rem */
     position: relative;
 }
 
-#camera-feed { /* Renomeado de #videoStream */
+.jokenpo-app-container #camera-feed {
     width: 100%;
     height: 100%;
     object-fit: contain; /* Garante que a imagem inteira seja visível */
@@ -134,150 +135,150 @@ h2 {
     z-index: 1;
 }
 
-.status-message {
+.jokenpo-app-container .status-message {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
     background-color: rgba(0, 0, 0, 0.6);
-    padding: 6px 12px; /* Padding reduzido */
-    border-radius: 5px;
-    font-size: 0.8rem; /* Fonte menor */
+    padding: 0.375rem 0.75rem; /* Padding reduzido em rem */
+    border-radius: 0.3125rem; /* Em rem */
+    font-size: 0.8rem; /* Fonte menor em rem */
     z-index: 2;
 }
 
-.player-info-live {
-    margin-top: 15px;
+.jokenpo-app-container .player-info-live {
+    margin-top: 0.9375rem; /* Em rem */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.player-info-live p {
-    margin: 0 0 8px 0;
+.jokenpo-app-container .player-info-live p {
+    margin: 0 0 0.5rem 0; /* Em rem */
     font-weight: 600;
     color: #334e68;
-    font-size: 0.95rem; /* Fonte ligeiramente menor */
+    font-size: 0.95rem; /* Fonte ligeiramente menor em rem */
 }
 
-.player-info-live .gesture-icon {
-    font-size: 3.5rem; /* Tamanho de ícone ligeiramente menor */
+.jokenpo-app-container .player-info-live .gesture-icon {
+    font-size: 3.5rem; /* Tamanho de ícone ligeiramente menor em rem */
     color: #26c6da;
 }
 
 /* --- Seção da Mão Robótica (Meio) --- */
-.robot-section .robot-hand-display {
+.jokenpo-app-container .robot-section .robot-hand-display {
     width: 100%;
     max-width: 560px; /* Consistente com a câmera do jogador */
     height: 200px; /* Altura ajustada para ser mais compacta */
     background-color: #e3f2fd;
     border: 2px solid #a7d9eb;
-    border-radius: 8px;
+    border-radius: 0.5rem; /* Em rem */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px; /* Espaço reduzido */
-    margin-bottom: 15px;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
+    gap: 0.625rem; /* Espaço reduzido em rem */
+    margin-bottom: 0.9375rem; /* Em rem */
+    box-shadow: inset 0 0 0.5rem rgba(0, 0, 0, 0.1); /* Em rem */
 }
 
-.robot-section .robot-status {
+.jokenpo-app-container .robot-section .robot-status {
     font-size: 1.1rem;
     font-weight: 600;
     color: #4db6ac;
     margin: 0;
 }
 
-.robot-section .gesture-icon {
-    font-size: 5.5rem; /* Tamanho de ícone ligeiramente menor */
+.jokenpo-app-container .robot-section .gesture-icon {
+    font-size: 5.5rem; /* Tamanho de ícone ligeiramente menor em rem */
     color: #26c6da;
 }
 
-.ai-game-feedback {
-    margin-top: 10px;
+.jokenpo-app-container .ai-game-feedback {
+    margin-top: 0.625rem; /* Em rem */
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 0.375rem; /* Em rem */
 }
 
-.ai-game-feedback .countdown-ai {
-    font-size: 1.6rem; /* Fonte reduzida */
+.jokenpo-app-container .ai-game-feedback .countdown-ai {
+    font-size: 1.6rem; /* Fonte reduzida em rem */
     font-weight: 700;
     color: #ff9800;
     margin: 0;
 }
 
-.ai-game-feedback .result-ai {
-    font-size: 1.3rem; /* Fonte reduzida */
+.jokenpo-app-container .ai-game-feedback .result-ai {
+    font-size: 1.3rem; /* Fonte reduzida em rem */
     font-weight: 600;
     color: #2c3e50;
     margin: 0;
 }
-.ai-game-feedback .result-ai.won { color: #4caf50; }
-.ai-game-feedback .result-ai.lost { color: #f44336; }
-.ai-game-feedback .result-ai.draw { color: #ffeb3b; }
+.jokenpo-app-container .ai-game-feedback .result-ai.won { color: #4caf50; }
+.jokenpo-app-container .ai-game-feedback .result-ai.lost { color: #f44336; }
+.jokenpo-app-container .ai-game-feedback .result-ai.draw { color: #ffeb3b; }
 
 
-/* --- Botões Gerais --- */
-.button {
-    padding: 10px 20px; /* Padding reduzido */
+/* --- Botões Gerais DENTRO do container Jokenpo --- */
+.jokenpo-app-container .button {
+    padding: 0.625rem 1.25rem; /* Padding reduzido em rem */
     border: none;
-    border-radius: 6px; /* Cantos mais suaves */
+    border-radius: 0.375rem; /* Cantos mais suaves em rem */
     cursor: pointer;
-    font-size: 0.9rem; /* Fonte ligeiramente menor */
+    font-size: 0.9rem; /* Fonte ligeiramente menor em rem */
     font-weight: 600;
     transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    gap: 0.375rem; /* Em rem */
+    box-shadow: 0 0.1875rem 0.375rem rgba(0, 0, 0, 0.1); /* Em rem */
 }
 
-.button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.jokenpo-app-container .button:hover {
+    transform: translateY(-0.0625rem); /* Em rem */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15); /* Em rem */
 }
 
-.button.primary { background-color: #26c6da; color: white; }
-.button.primary:hover { background-color: #00bcd4; }
-.button.danger { background-color: #ef5350; color: white; }
-.button.danger:hover { background-color: #e53935; }
-.button.success { background-color: #66bb6a; color: white; }
-.button.success:hover { background-color: #43a047; }
-.button.info { background-color: #90a4ae; color: white; }
-.button.info:hover { background-color: #78909c; }
+.jokenpo-app-container .button.primary { background-color: #26c6da; color: white; }
+.jokenpo-app-container .button.primary:hover { background-color: #00bcd4; }
+.jokenpo-app-container .button.danger { background-color: #ef5350; color: white; }
+.jokenpo-app-container .button.danger:hover { background-color: #e53935; }
+.jokenpo-app-container .button.success { background-color: #66bb6a; color: white; }
+.jokenpo-app-container .button.success:hover { background-color: #43a047; }
+.jokenpo-app-container .button.info { background-color: #90a4ae; color: white; }
+.jokenpo-app-container .button.info:hover { background-color: #78909c; }
 
 
 /* --- Seção de Mensagens Principais (Fundo) --- */
-.main-messages-section {
+.jokenpo-app-container .main-messages-section {
     /* Herda de .card */
 }
 
-.result-message-area {
+.jokenpo-app-container .result-message-area {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px; /* Espaço reduzido */
+    gap: 0.5rem; /* Espaço reduzido em rem */
 }
 
-#round-result-main {
-    font-size: 1.6rem; /* Fonte ligeiramente menor */
+.jokenpo-app-container #round-result-main {
+    font-size: 1.6rem; /* Fonte ligeiramente menor em rem */
     font-weight: 700;
     color: #2c3e50;
     margin: 0;
 }
-#round-result-main.won { color: #4caf50; }
-#round-result-main.lost { color: #f44336; }
-#round-result-main.draw { color: #ffeb3b; }
+.jokenpo-app-container #round-result-main.won { color: #4caf50; }
+.jokenpo-app-container #round-result-main.lost { color: #f44336; }
+.jokenpo-app-container #round-result-main.draw { color: #ffeb3b; }
 
-.countdown-display { margin: 0; }
-#countdown-message {
-    font-size: 2rem; /* Fonte ligeiramente menor */
+.jokenpo-app-container .countdown-display { margin: 0; }
+.jokenpo-app-container #countdown-message {
+    font-size: 2rem; /* Fonte ligeiramente menor em rem */
     font-weight: 700;
     color: #ff9800;
     transition: color 0.3s ease;
@@ -285,30 +286,30 @@ h2 {
 }
 
 /* --- Seção de Debug (Fundo) --- */
-.debug-info-section {
+.jokenpo-app-container .debug-info-section {
     text-align: left;
 }
 
-.debug-content {
+.jokenpo-app-container .debug-content {
     width: 100%;
 }
 
-.debug-info-section h3 {
+.jokenpo-app-container .debug-info-section h3 {
     margin-top: 0;
     color: #26c6da;
-    font-size: 1.1rem; /* Fonte ligeiramente menor */
-    margin-bottom: 8px;
+    font-size: 1.1rem; /* Fonte ligeiramente menor em rem */
+    margin-bottom: 0.5rem; /* Em rem */
 }
-.debug-info-section p { margin: 0 0 4px 0; font-weight: 600; font-size: 0.9rem; } /* Fonte menor */
-.debug-info-section span { font-weight: 400; color: #3f51b5; } /* Azul mais escuro */
-#jokenpo-json-display {
+.jokenpo-app-container .debug-info-section p { margin: 0 0 0.25rem 0; font-weight: 600; font-size: 0.9rem; } /* Fonte menor em rem */
+.jokenpo-app-container .debug-info-section span { font-weight: 400; color: #3f51b5; } /* Azul mais escuro */
+.jokenpo-app-container #jokenpo-json-display {
     background-color: #e0f2f7;
     border: 1px solid #b3e0ed;
-    border-radius: 8px;
-    padding: 8px; /* Padding reduzido */
-    margin-top: 5px;
+    border-radius: 0.5rem; /* Em rem */
+    padding: 0.5rem; /* Padding reduzido em rem */
+    margin-top: 0.3125rem; /* Em rem */
     font-family: 'Courier New', Courier, monospace;
-    font-size: 0.75rem; /* Fonte menor para JSON */
+    font-size: 0.75rem; /* Fonte menor para JSON em rem */
     white-space: pre-wrap;
     word-break: break-all;
     max-height: 120px; /* Altura ajustada */
@@ -318,49 +319,97 @@ h2 {
     box-sizing: border-box;
 }
 
-/* --- Media Queries para Responsividade --- */
-@media (max-width: 1200px) { /* Novo breakpoint para tablets maiores */
+/* --- Media Queries para Responsividade (escopadas) --- */
+
+/* Pequenos tablets e desktops (901px - 1200px) */
+@media (max-width: 1200px) { 
     .jokenpo-app-container {
-        max-width: 95%; /* Ocupa a maior parte da largura em telas médias */
+        padding: 0.75rem;
+        gap: 1.25rem;
     }
-    .card {
-        max-width: 48%; /* Permite 2 cards por linha */
+    .jokenpo-app-container .card {
+        padding: 1rem;
+        min-width: 45%; /* Ajusta um pouco para caber melhor 2 por linha */
+        max-width: 48%; 
     }
-    .game-scoreboard-controls {
-        max-width: 70%; /* Ajusta para ser mais largo em telas médias */
+    .jokenpo-app-container .game-scoreboard-controls {
+        max-width: 70%;
     }
+    .jokenpo-app-container h2 { font-size: 1.4rem; }
+    .jokenpo-app-container .scoreboard { font-size: 1.6rem; padding: 0.625rem 1.25rem; }
+    .jokenpo-app-container .score span { font-size: 2.4rem; }
+    .jokenpo-app-container .separator { font-size: 2.4rem; }
+    .jokenpo-app-container .player-info-live .gesture-icon { font-size: 3rem; }
+    .jokenpo-app-container .robot-section .gesture-icon { font-size: 5rem; }
+    .jokenpo-app-container .ai-game-feedback .countdown-ai { font-size: 1.4rem; }
+    .jokenpo-app-container .ai-game-feedback .result-ai { font-size: 1.1rem; }
+    .jokenpo-app-container #round-result-main { font-size: 1.4rem; }
+    .jokenpo-app-container #countdown-message { font-size: 1.8rem; }
 }
 
-@media (max-width: 900px) { /* Tablet Portrait e Mobile Landscape */
-    .game-scoreboard-controls,
-    .camera-robot-row,
-    .bottom-messages-debug-row {
+/* Tablet Portrait e Mobile Landscape (601px - 900px) */
+@media (max-width: 900px) { 
+    .jokenpo-app-container {
+        padding: 0.5rem;
+        gap: 1rem;
+    }
+    .jokenpo-app-container .game-scoreboard-controls,
+    .jokenpo-app-container .camera-robot-row,
+    .jokenpo-app-container .bottom-messages-debug-row {
         flex-direction: column; /* Empilha as seções em colunas */
         align-items: center;
+        gap: 1rem;
     }
-    .card {
-        min-width: 95%; /* Ocupa mais espaço em telas menores */
+    .jokenpo-app-container .card {
+        min-width: 95%; /* Ocupa a maior parte da largura */
         max-width: 95%; 
-        padding: 15px; /* Reduz padding em telas menores */
+        padding: 1rem; 
     }
-    .game-scoreboard-controls {
-        max-width: 95%; /* Ajusta para ser mais largo em telas menores */
+    .jokenpo-app-container .game-scoreboard-controls {
+        max-width: 95%; 
     }
+    .jokenpo-app-container h2 { font-size: 1.3rem; }
+    .jokenpo-app-container .scoreboard { font-size: 1.5rem; gap: 0.625rem; padding: 0.5rem 1rem; }
+    .jokenpo-app-container .score span { font-size: 2.2rem; }
+    .jokenpo-app-container .separator { font-size: 2.2rem; }
+    .jokenpo-app-container .button { padding: 0.5rem 1rem; font-size: 0.85rem; }
+    .jokenpo-app-container .player-info-live p { font-size: 0.9rem; }
+    .jokenpo-app-container .player-info-live .gesture-icon { font-size: 2.5rem; }
+    .jokenpo-app-container .robot-section .robot-hand-display { height: 180px; }
+    .jokenpo-app-container .robot-section .gesture-icon { font-size: 4.5rem; }
+    .jokenpo-app-container .ai-game-feedback .countdown-ai { font-size: 1.3rem; }
+    .jokenpo-app-container .ai-game-feedback .result-ai { font-size: 1.0rem; }
+    .jokenpo-app-container #round-result-main { font-size: 1.3rem; }
+    .jokenpo-app-container #countdown-message { font-size: 1.6rem; }
+    .jokenpo-app-container .debug-info-section p { font-size: 0.85rem; }
+    .jokenpo-app-container #jokenpo-json-display { max-height: 100px; font-size: 0.7rem; padding: 0.4rem; }
 }
 
-@media (max-width: 500px) { /* Mobile muito pequeno */
-    h1 { font-size: 1.8rem; }
-    h2 { font-size: 1.4rem; }
-    .scoreboard { font-size: 1.4rem; gap: 8px; padding: 10px 15px; }
-    .score span { font-size: 2.2rem; }
-    .separator { font-size: 2.2rem; }
-    #round-result-main, .ai-game-feedback .result-ai { font-size: 1.2rem; }
-    #countdown-message, .ai-game-feedback .countdown-ai { font-size: 1.6rem; }
-    .button { padding: 8px 15px; font-size: 0.8rem; }
-    .player-info-live .gesture-icon { font-size: 2.8rem; }
-    .robot-section .robot-hand-display { height: 160px; }
-    .robot-section .gesture-icon { font-size: 4.5rem; }
-    .debug-info-section h3 { font-size: 0.9rem; }
-    .debug-info-section p { font-size: 0.75rem; }
-    #jokenpo-json-display { max-height: 80px; font-size: 0.65rem; padding: 6px; }
+/* Mobile (até 600px) */
+@media (max-width: 600px) { 
+    .jokenpo-app-container {
+        padding: 0.25rem;
+        gap: 0.75rem;
+    }
+    .jokenpo-app-container .card {
+        padding: 0.75rem;
+    }
+    .jokenpo-app-container h2 { font-size: 1.1rem; gap: 0.25rem;}
+    .jokenpo-app-container .scoreboard { font-size: 1.2rem; gap: 0.5rem; padding: 0.4rem 0.75rem; }
+    .jokenpo-app-container .score span { font-size: 1.8rem; }
+    .jokenpo-app-container .separator { font-size: 1.8rem; }
+    .jokenpo-app-container .round-info { font-size: 0.85rem; }
+    .jokenpo-app-container .jokenpo-controls { gap: 0.5rem; }
+    .jokenpo-app-container .button { padding: 0.4rem 0.8rem; font-size: 0.75rem; gap: 0.4rem; }
+    .jokenpo-app-container .player-info-live p { font-size: 0.8rem; }
+    .jokenpo-app-container .player-info-live .gesture-icon { font-size: 2rem; }
+    .jokenpo-app-container .robot-section .robot-hand-display { height: 140px; }
+    .jokenpo-app-container .robot-section .gesture-icon { font-size: 3.5rem; }
+    .jokenpo-app-container .ai-game-feedback .countdown-ai { font-size: 1.1rem; }
+    .jokenpo-app-container .ai-game-feedback .result-ai { font-size: 0.85rem; }
+    .jokenpo-app-container #round-result-main { font-size: 1.1rem; }
+    .jokenpo-app-container #countdown-message { font-size: 1.4rem; }
+    .jokenpo-app-container .debug-info-section h3 { font-size: 0.8rem; }
+    .jokenpo-app-container .debug-info-section p { font-size: 0.7rem; }
+    .jokenpo-app-container #jokenpo-json-display { max-height: 70px; font-size: 0.6rem; padding: 0.3rem; }
 }
