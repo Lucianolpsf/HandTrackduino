@@ -15,7 +15,7 @@ def conectar_arduino():
     global board
     if board is None:
         from pyfirmata import Arduino
-        board = Arduino("/dev/cu.usbserial-120")
+        board = Arduino(PORTA)
         # Faça outras configurações necessárias aqui
 
         pin1 = 10
