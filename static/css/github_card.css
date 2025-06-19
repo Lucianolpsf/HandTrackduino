@@ -1,8 +1,8 @@
 .card{
     border: 1px solid var(--tertiary);
-    padding: 10px;
+    padding: 5px;
     text-align: center;
-    height: 115px;
+    height: 105px;
     border-radius: 8px;
 }
 

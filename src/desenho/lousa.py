@@ -1,51 +1,43 @@
-import cv2
+from services.cameras.camera_manager import CameraManager
 from cvzone.HandTrackingModule import HandDetector
+import cv2
+
+from services.cameras.utils import add_watermark
 
 detector = HandDetector(detectionCon=0.8, maxHands=1)
 desenho = []
 
-def gen_frames(camera_id):
+def gen_lousa_frames():
     global desenho
-    video = cv2.VideoCapture(int(camera_id))
-
-    # video.set(3, 1280)
-    # video.set(4, 720)
-    try:
-        while True:
-            success, img = video.read()
-            if not success or img is None:
-                print("Erro: Não foi possível capturar a imagem da câmera para a lousa!")
-                break
-
-            img = cv2.flip(img, 1)
-            resultado = detector.findHands(img, draw=True)
-            hands = resultado[0]
-
-            if hands:
-                lmlist = hands[0]['lmList']
-                dedos = detector.fingersUp(hands[0])
-                dedosLev = dedos.count(1)
-
-                if dedosLev == 1:
-                    x, y = lmlist[8][0], lmlist[8][1]
-                    cv2.circle(img, (x, y), 15, (255, 0, 0), cv2.FILLED)
-                    desenho.append((x, y))
-                elif dedosLev != 1 and dedosLev != 5:
-                    desenho.append((0, 0))
-                elif dedosLev == 5:
-                    desenho = []
-
-                for id, ponto in enumerate(desenho):
-                    x, y = ponto
-                    cv2.circle(img, (x, y), 10, (255, 0, 0), cv2.FILLED)
-                    if id >= 1:
-                        ax, ay = desenho[id-1]
-                        if x != 0 and ax != 0:
-                            cv2.line(img, (x, y), (ax, ay), (255, 0, 0), 20)
-
-            ret, buffer = cv2.imencode('.jpg', img)
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-    finally:
-        video.release()
+    cam = CameraManager.get_instance()
+    while True:
+        img = cam.get_frame()
+        if img is None:
+            break
+        img = cv2.flip(img, 1)
+        resultado = detector.findHands(img, draw=True)
+        hands = resultado[0]
+        if hands:
+            lmlist = hands[0]['lmList']
+            dedos = detector.fingersUp(hands[0])
+            dedosLev = dedos.count(1)
+            if dedosLev == 1:
+                x, y = lmlist[8][0], lmlist[8][1]
+                cv2.circle(img, (x, y), 15, (255, 0, 0), cv2.FILLED)
+                desenho.append((x, y))
+            elif dedosLev != 1 and dedosLev != 5:
+                desenho.append((0, 0))
+            elif dedosLev == 5:
+                desenho = []
+            for id, ponto in enumerate(desenho):
+                x, y = ponto
+                cv2.circle(img, (x, y), 10, (255, 0, 0), cv2.FILLED)
+                if id >= 1:
+                    ax, ay = desenho[id-1]
+                    if x != 0 and ax != 0:
+                        cv2.line(img, (x, y), (ax, ay), (255, 0, 0), 20)
+        img = add_watermark(img)
+        ret, buffer = cv2.imencode('.jpg', img)
+        frame = buffer.tobytes()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')

@@ -1,5 +1,6 @@
 import cv2
 import threading
+from services.cameras.camera_manager import CameraManager
 
 
 def try_open_camera(index, result, timeout=50.0):
@@ -19,9 +20,7 @@ def try_open_camera(index, result, timeout=50.0):
         return
 
 def listar_cameras_disponiveis(max_index=5, timeout=50.0):
-    """
-    Lista os índices das câmeras disponíveis usando threads e timeout.
-    """
+    CameraManager.get_instance().release()  # Libera antes de listar
     cameras = []
     for i in range(max_index):
         try_open_camera(i, cameras, timeout)
