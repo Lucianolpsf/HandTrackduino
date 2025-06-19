@@ -1,4 +1,4 @@
-from pyfirmata import Arduino,SERVO
+from pyfirmata import Arduino, SERVO
 import time
 import threading
 import os
@@ -11,47 +11,45 @@ modo_automatico = False
 thread_auto = None
 board = None  # Inicialmente não conectado
 
+# Estado atual dos dedos para evitar comandos repetidos
+estado_dedos = {10: None, 9: None, 8: None, 7: None, 6: None}
+
 def conectar_arduino():
     global board
     if board is None:
-        from pyfirmata import Arduino
         board = Arduino(PORTA)
-        # Faça outras configurações necessárias aqui
+        for pin in [10, 9, 8, 7, 6]:
+            board.digital[pin].mode = SERVO
 
-        pin1 = 10
-        pin2 = 9
-        pin3 = 8
-        pin4 = 7
-        pin5 = 6
-
-        board.digital[pin1].mode = SERVO
-        board.digital[pin2].mode = SERVO
-        board.digital[pin3].mode = SERVO
-        board.digital[pin4].mode = SERVO
-        board.digital[pin5].mode = SERVO
-
-def rotateServo(pino,angle):
+def rotateServo(pino, angle):
     board.digital[pino].write(angle)
     time.sleep(0.015)
 
-
-def abrir_fechar(pin,on_off):
-    conectar_arduino()  # Certifique-se de que o Arduino está conectado antes de operar os pinos
-    if on_off==1:
-        rotateServo(pin, 0)
-    elif on_off==0 and pin == 8:
-        rotateServo(pin, 250)
-    elif on_off==0 and pin!=10 and pin!=9:
-        rotateServo(pin, 140)
-    elif on_off == 0 and pin == 10:
-        rotateServo(pin, 150)
-    elif on_off == 0 and pin == 9:
-        rotateServo(pin, 180)
-
+def abrir_fechar(pin, on_off):
+    conectar_arduino()
+    # Só envia comando se mudou o estado
+    if estado_dedos.get(pin) != on_off:
+        # Ajuste os ângulos conforme seu hardware para evitar forçar!
+        if on_off == 1:
+            # Abrir
+            if pin == 8:
+                rotateServo(pin, 0)
+            else:
+                rotateServo(pin, 0)
+        elif on_off == 0:
+            # Fechar
+            if pin == 8:
+                rotateServo(pin, 180)  # Ajuste se necessário
+            elif pin == 10:
+                rotateServo(pin, 120)  # Ajuste se necessário
+            elif pin == 9:
+                rotateServo(pin, 120)  # Ajuste se necessário
+            else:
+                rotateServo(pin, 120)  # Ajuste se necessário
+        estado_dedos[pin] = on_off
 
 def liberar_servos():
-    # Defina aqui a posição neutra ou de descanso dos servos
-    # Por exemplo, todos abertos:
+    # Todos abertos (posição de descanso)
     abrir_fechar(10, 1)
     abrir_fechar(9, 0)
     abrir_fechar(8, 0)
@@ -67,9 +65,9 @@ def _executar_rotina():
         {"nome": "paz", "dedos": {10: 0, 9: 1, 8: 1, 7: 1, 6: 1}},      # ✌️
         {"nome": "hang", "dedos": {10: 1, 9: 0, 8: 0, 7: 1, 6: 0}},     # 🤙
         {"nome": "fechada", "dedos": {10: 0, 9: 0, 8: 0, 7: 1, 6: 1}},  # ✊
-        {"nome": "aberta", "dedos": {10: 1, 9: 1, 8: 1, 7: 0, 6: 0}},  # ✊
+        {"nome": "aberta", "dedos": {10: 1, 9: 1, 8: 1, 7: 0, 6: 0}},   # 🖐️
         {"nome": "tchau", "dedos": {10: 1, 9: 1, 8: 1, 7: 0, 6: 0}},    # 👋
-        {"nome": "aponta", "dedos": {10: 0, 9: 1, 8: 0, 7: 1, 6: 1}},  # ✊
+        {"nome": "aponta", "dedos": {10: 0, 9: 1, 8: 0, 7: 1, 6: 1}},   # 👉
     ]
     indice = 0
 
@@ -84,7 +82,6 @@ def _executar_rotina():
         if gesto["nome"] == "tchau":
             for _ in range(4):
                 if not modo_automatico: break
-                # abrir_fechar(10, 1)
                 abrir_fechar(9, 0)
                 abrir_fechar(8, 0)
                 abrir_fechar(7, 1)
@@ -113,6 +110,6 @@ def rotina_automatica(on=False):
     elif not on:
         modo_automatico = False
         if thread_auto is not None:
-            thread_auto.join(timeout=2)  # Aguarda a thread terminar (com timeout)
-        liberar_servos()  # Libera os servos para o modo manual
+            thread_auto.join(timeout=2)
+        liberar_servos()
         print("Modo automático PARADO")

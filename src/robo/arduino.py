@@ -12,6 +12,7 @@ mpDraw = mp.solutions.drawing_utils
 
 
 def mao_aberta():
+    # Posição de descanso (ajuste conforme necessário)
     mao.abrir_fechar(10, 1)
     mao.abrir_fechar(9, 1)
     mao.abrir_fechar(8, 1)
@@ -34,16 +35,16 @@ def gen_arduino_frames():
         h, w, _ = img.shape
         pontos = []
         if handPoints:
-            last_detected_time = current_time  # Atualiza porque detectou mão
+            last_detected_time = current_time
             if in_rest_position:
                 print("Mão detectada novamente, saindo da posição de descanso.")
                 in_rest_position = False
             for points in handPoints:
-                mpDraw.draw_landmarks(img, points,hands.HAND_CONNECTIONS)
+                mpDraw.draw_landmarks(img, points, hands.HAND_CONNECTIONS)
                 for id, cord in enumerate(points.landmark):
                     cx, cy = int(cord.x * w), int(cord.y * h)
-                    cv2.circle(img,(cx,cy),4,(255,0,0),-1)
-                    pontos.append((cx,cy))
+                    cv2.circle(img, (cx, cy), 4, (255, 0, 0), -1)
+                    pontos.append((cx, cy))
 
                 if pontos:
                     distPolegar = abs(pontos[17][0] - pontos[4][0])
@@ -66,32 +67,13 @@ def gen_arduino_frames():
                                     cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255, 255, 255), 4)
                         mao_aberta()
                     else:
-                        if distPolegar < 80:
-                            mao.abrir_fechar(10, 0)
-                        else:
-                            mao.abrir_fechar(10, 1)
+                        # Ajuste os thresholds conforme necessário para seu projeto
+                        mao.abrir_fechar(10, 0 if distPolegar < 80 else 1)
+                        mao.abrir_fechar(9, 1 if distIndicador >= 1 else 0)
+                        mao.abrir_fechar(8, 1 if distMedio >= 1 else 0)
+                        mao.abrir_fechar(7, 0 if distAnelar >= 1 else 1)
+                        mao.abrir_fechar(6, 0 if distMinimo >= 1 else 1)
 
-                        if distIndicador >= 1:
-                            mao.abrir_fechar(9, 1)
-                        else:
-                            mao.abrir_fechar(9, 0)
-
-                        if distMedio >= 1:
-                            mao.abrir_fechar(8, 1)
-                        else:
-                            mao.abrir_fechar(8, 0)
-
-                        if distAnelar >= 1:
-                            mao.abrir_fechar(7, 0)
-                        else:
-                            mao.abrir_fechar(7, 1)
-
-                        if distMinimo >= 1:
-                            mao.abrir_fechar(6, 0)
-                        else:
-                            mao.abrir_fechar(6, 1)
-
-        
         # Verifica inatividade
         if current_time - last_detected_time > 5:
             if not in_rest_position:
@@ -99,28 +81,20 @@ def gen_arduino_frames():
                 mao_aberta()
                 in_rest_position = True
 
-        
-        # Cria uma camada de sobreposição transparente
+        # Overlay de status
         overlay = img.copy()
 
         if current_time - last_detected_time > 5:
-            # Estado de descanso
             texto = "Mao em Descanso"
-            cor = (0, 0, 255)  # Vermelho
+            cor = (0, 0, 255)
             posicao = (10, 30)
         else:
             texto = "Mao Detectada"
-            cor = (0, 255, 0)  # Verde
+            cor = (0, 255, 0)
             posicao = (10, 30)
-
-        # Desenha um retângulo semi-transparente
         cv2.rectangle(overlay, (posicao[0]-10, posicao[1]-30), (posicao[0]+300, posicao[1]+10), (0,0,0), -1)
-
-        # Faz blend entre a imagem original e o overlay
         alpha = 0.4
         cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0, img)
-
-        # Coloca o texto por cima
         cv2.putText(img, texto, posicao, cv2.FONT_HERSHEY_SIMPLEX, 1, cor, 2)
         
         img = add_watermark(img)
