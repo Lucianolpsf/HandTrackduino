@@ -24,7 +24,7 @@ function setCameraIndex() {
 }
 
 // Chame setCameraIndex() sempre que o usuário selecionar uma câmera
-document.getElementById("cameraSelect").addEventListener("change", setCameraIndex);
+document.getElementById("cameraSelect").addEventListener("click", setCameraIndex);
 
 function iniciarStream() {
     let stream = document.getElementById("videoStream");
@@ -37,3 +37,29 @@ function iniciarStream() {
 window.addEventListener("beforeunload", function (e) {
     navigator.sendBeacon("/release_camera");
 });
+
+window.onload = function() {
+    fetch('/arduino_ports')
+        .then(response => response.json())
+        .then(ports => {
+            const select = document.getElementById('arduinoPortSelect');
+            ports.forEach(port => {
+                const option = document.createElement('option');
+                option.value = port;
+                option.text = port;
+                select.appendChild(option);
+            });
+            // Adiciona o evento change após popular as opções
+            select.addEventListener('click', setArduinoPort);
+        });
+};
+
+function setArduinoPort() {
+    const port = document.getElementById('arduinoPortSelect').value;
+    fetch('/set_arduino_port', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({port: port})
+    }).then(resp => resp.json())
+      .then(data => console.log(data.status));
+}

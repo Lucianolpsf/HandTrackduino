@@ -5,11 +5,14 @@ from services.cameras.camera_manager import CameraManager
 from services.github import get_cards
 from src.robo.arduino import gen_arduino_frames
 from src.desenho.lousa import gen_lousa_frames
+import serial.tools.list_ports
+import sys
 
 
 app = Flask(__name__)
 
 camera_index_global = 0  # Valor padrão
+arduino_port_global = None
 
 @app.route('/')
 def index():
@@ -70,6 +73,47 @@ def arduino_automatico():
     rotina_automatica(on=(estado == "on"))
     return f"Modo automático {'ativado' if estado == 'on' else 'desativado'}"
 
+
+@app.route("/arduino_ports")
+def arduino_ports():
+    ports = []
+    for port in serial.tools.list_ports.comports():
+        desc = (port.description or "").lower()
+        manuf = (port.manufacturer or "").lower() if port.manufacturer else ""
+        device = port.device.lower()
+        # Filtros comuns para placas Arduino e clones
+        is_arduino = (
+            "arduino" in desc or
+            "arduino" in manuf or
+            "ch340" in desc or
+            "wchusb" in desc or
+            "usb serial" in desc or
+            "acm" in device or
+            "usb" in device or
+            "serial" in desc
+        )
+        # No Windows, portas COMx geralmente são Arduino/clones
+        is_windows_com = sys.platform.startswith("win") and device.startswith("com")
+        if is_arduino or is_windows_com:
+            ports.append(port.device)
+    # Se não encontrou nenhuma, mostra todas para debug
+    if not ports:
+        ports = [port.device for port in serial.tools.list_ports.comports()]
+    return jsonify(ports)
+
+
+@app.route("/set_arduino_port", methods=["POST"])
+def set_arduino_port():
+    global arduino_port_global
+    data = request.get_json()
+    arduino_port_global = data.get("port")
+    return jsonify({"status": f"Porta {arduino_port_global} selecionada!"})
+
+
+@app.route("/get_arduino_port")
+def get_arduino_port():
+    global arduino_port_global
+    return jsonify({"port": arduino_port_global})
 
 
 if __name__ == '__main__':

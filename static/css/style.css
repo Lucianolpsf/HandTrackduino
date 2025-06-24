@@ -69,7 +69,7 @@ main {
     gap: 10px;
 }
 
-.cameraSelect{
+.menuSelect{
     display: flex;
     gap: 10px;
     align-items: center;
@@ -111,6 +111,13 @@ select option {
 /* Hover dentro da lista de opções (em navegadores que suportam) */
 select option:hover {
   background-color: var(--tertiary);
+}
+
+.seletor{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
 

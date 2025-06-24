@@ -3,6 +3,7 @@ import time
 import threading
 import os
 from dotenv import load_dotenv
+import requests
 load_dotenv()
 
 PORTA = os.getenv('PORTA')
@@ -22,10 +23,21 @@ ANGULOS_SERVOS = {
 }
 
 
+def get_arduino_port():
+    try:
+        resp = requests.get("http://localhost:5000/get_arduino_port")
+        return resp.json().get("port")
+    except Exception:
+        return None
+
+
 def conectar_arduino():
     global board
     if board is None:
-        board = Arduino(PORTA)
+        porta = get_arduino_port()
+        if not porta:
+            raise Exception("Porta do Arduino não selecionada!")
+        board = Arduino(porta)
         for pin in [10, 9, 8, 7, 6]:
             board.digital[pin].mode = SERVO
 
