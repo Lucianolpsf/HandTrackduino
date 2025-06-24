@@ -13,7 +13,7 @@ mpDraw = mp.solutions.drawing_utils
 
 def mao_aberta():
     # Posição de descanso (ajuste conforme necessário)
-    mao.abrir_fechar(10, 1)
+    mao.abrir_fechar(10, 0)
     mao.abrir_fechar(9, 1)
     mao.abrir_fechar(8, 1)
     mao.abrir_fechar(7, 0)
@@ -68,7 +68,7 @@ def gen_arduino_frames():
                         mao_aberta()
                     else:
                         # Ajuste os thresholds conforme necessário para seu projeto
-                        mao.abrir_fechar(10, 0 if distPolegar < 80 else 1)
+                        mao.abrir_fechar(10, 1 if distPolegar < 50 else 0)
                         mao.abrir_fechar(9, 1 if distIndicador >= 1 else 0)
                         mao.abrir_fechar(8, 1 if distMedio >= 1 else 0)
                         mao.abrir_fechar(7, 0 if distAnelar >= 1 else 1)
