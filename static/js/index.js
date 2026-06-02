@@ -1,21 +1,23 @@
-function stopOldStream() {
-    // Remove qualquer <img> com id 'lousa' (usado nos templates lousa.html e arduino.html)
-    const oldImg = document.getElementById('lousa');
-    if (oldImg) {
-        // Remove o src para parar o stream
-        oldImg.src = '';
-        // Remove o elemento do DOM
-        oldImg.remove();
-    }
+function clearMediaSrcs() {
+    const content = document.getElementById('content');
+    if (!content) return;
+    // Limpa src de todos os elementos de mídia dentro do container
+    ['img'].forEach(tag => {
+        content.querySelectorAll(tag).forEach(el => {
+            el.src = '';
+            el.remove();
+        });
+    });
 }
 
 function loadContent(id) {
-    stopOldStream();
+    clearMediaSrcs(); // Limpa mídias antes de carregar novo conteúdo
     if (id === 1) {
         fetch('/arduino')
         .then(response => response.text())
         .then(html => {
             document.getElementById('content').innerHTML = html;
+            console.log(`${html}`);
         });
     }
     else if (id === 2) {
@@ -23,6 +25,15 @@ function loadContent(id) {
         .then(response => response.text())
         .then(html => {
             document.getElementById('content').innerHTML = html;
+            console.log(`${html}`);
+        });
+    }
+    else if (id === 3) {
+        fetch('/jokenpo')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('content').innerHTML = html;
+            console.log(`${html}`);
         });
     }
     else {

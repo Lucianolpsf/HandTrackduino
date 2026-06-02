@@ -4,7 +4,7 @@ import qrcode
 import base64
 from io import BytesIO
 
-NICKS = ["lucianolpsf", "fernandallobao", "jesieldossantos", "Victorrezende19", "calebegomes740", "CaioHarrys", "aucelio0", "brunofluna", "Rafael-ai13", "Xandy77", "pauloalvezz" ]
+NICKS = ["fernandallobao", "jesieldossantos", "Victorrezende19", "calebegomes740", "CaioHarrys", "aucelio0", "brunofluna", "Rafael-ai13", "Xandy77", "pauloalvezz" ]
 github_cache = {}
 
 def get_github_user_info(username):
@@ -28,7 +28,7 @@ def get_github_user_info(username):
             return {
                 "username": username,
                 "name": username,
-                "avatar_url": "/static/img/default_avatar.png",  # coloque uma imagem padrão no seu projeto
+                "avatar_url": "/static/img/icons8-usuario-96.png",  # coloque uma imagem padrão no seu projeto
                 "profile_url": f"https://github.com/{username}"
             }
     except requests.RequestException:
@@ -36,7 +36,7 @@ def get_github_user_info(username):
         return {
             "username": username,
             "name": username,
-            "avatar_url": "/static/img/default_avatar.png",  # coloque uma imagem padrão no seu projeto
+            "avatar_url": "/static/img/icons8-usuario-96.png",  # coloque uma imagem padrão no seu projeto
             "profile_url": f"https://github.com/{username}"
         }
 
